@@ -1,0 +1,479 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>STL学习 | Gridea</title>
+<link rel="shortcut icon" href="https://ajream.github.io/favicon.ico?v=1626076922866">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://ajream.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="STL学习 | Gridea - Atom Feed" href="https://ajream.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="[toc]
+STL
+参考网页
+vector动态数组
+特点：可变数组（动态数组），可在末端快速插入、删除，可随机访问任何元素。
+实现动态增长原理：
+​		数组满了后，再往里面添加元素，cpu会申请更大空间，把原数组数据copy到新空间中，再把..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://ajream.github.io">
+  <img class="avatar" src="https://ajream.github.io/images/avatar.png?v=1626076922866" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              STL学习
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-07-12
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>[toc]</p>
+<h1 id="stl">STL</h1>
+<p><a href="https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5">参考网页</a></p>
+<h2 id="vector动态数组">vector动态数组</h2>
+<p>特点：可变数组（动态数组），可在末端快速插入、删除，可随机访问任何元素。</p>
+<p>实现动态增长原理：</p>
+<p>​		数组满了后，再往里面添加元素，cpu会申请更大空间，把原数组数据copy到新空间中，再把新元素插入进去；</p>
+<pre><code class="language-c">for(int i=0; i&lt;n; ++i){
+        idx = d[i] - 1;
+        if(p[idx]==p.front() &amp;&amp; p.front != p.back()) {
+            p.erase(p.begin());
+            score += p.front();
+        }
+        if(p[idx]==p.back() &amp;&amp; p.front != p.back()) {
+            p.erase(p.rend());
+            score += p.back();
+        }
+        if(p.front == p.back()) {
+            score += 0;
+        }
+        if(p[idx]!=p.front() &amp;&amp; p[idx]!=p.back()){
+            score += p[idx-1] + p[idx+1];
+            p.erase(&amp;p[idx]);
+        }
+    }
+</code></pre>
+<ol>
+<li>
+<p>首先：</p>
+<pre><code class="language-c++">#include &lt;vector&gt;
+</code></pre>
+</li>
+<li>
+<p>创建和初始化</p>
+<pre><code class="language-c++">vector&lt;T&gt; vec;
+vector&lt;T&gt; vec(size); //创建具有size个元素的vector
+vector&lt;T&gt; vec(size, val); //创建具有size个元素的vector,初始值为val
+</code></pre>
+</li>
+<li>
+<p>获取迭代器</p>
+<pre><code class="language-c++">vector&lt;int&gt; v1;
+vector&lt;int&gt;::iterator it1 = v1.begin();
+vector&lt;int&gt;::iterator it2 = v1.end();
+
+vec.begin()、 vec.end()、 vec.rbegin()、 vec.rend() //后两个为逆迭代器
+</code></pre>
+<p>![image-20210704222741364](https://gitee.com/ajream/images/raw/master/img/2021-07-04 22-27-46_image-20210704222741364.png)</p>
+</li>
+<li>
+<p>常用操作函数</p>
+<pre><code class="language-c++">vec.at(n) 	//返回vec中位置为n的元素
+vec[n]
+    
+vec.back() 	//返回vec中最后一个元素
+vec.front() //返回vec中的第一个元素
+
+vec.push_back(a) //将元素a插入到vec的末尾
+vec.pop_back() //删除vec中的末尾元素
+
+vec.clear() //清除vec中的所有元素
+vec.empty() //判断vec是否为空，为空返回true，否则返回false
+    
+vec.begin()、 vec.end()、 vec.rbegin()、 vec.rend() //后两个为逆迭代器
+vec.size() //返回vec中的元素数量
+
+vec.resize(int num);  //重新设置大小，若比原来小，多余的被抛弃，若比原来大，用0填充多出的
+vec.resize(int , 4);  //重新设置大小，若比原来大，用4填充多出的
+
+vec.insert(v.begin(), 30); //表示插入操作完成后30位于v.begin()的位置
+
+vec.erase(v.begin());  //删除v.begin()位置的元素
+vec.erase(v.begin()+1, v.end());  //删除第2个之后的元素
+</code></pre>
+</li>
+</ol>
+<h2 id="stack栈">stack栈</h2>
+<p>特点：只允许读写栈顶元素，不支持访问除栈顶元素外的任意元素，没有迭代器</p>
+<ol>
+<li>
+<p>创建</p>
+<pre><code class="language-c">#include &lt;stack&gt;
+stack&lt;T&gt; sta;
+</code></pre>
+</li>
+<li>
+<p>基本操作：</p>
+<pre><code class="language-c">sta.top() //返回sta的栈顶元素
+sta.pop() //删除sta的栈顶元素
+sta.push(a) //向sta的栈顶插入元素a
+
+sta.empty() //检查sta是否为空
+sta.size() //返回容纳的元素数量
+</code></pre>
+</li>
+</ol>
+<h2 id="queue队列">queue队列</h2>
+<p>特点：只能访问首尾元素（队头：移出元素，获取元素； 队尾：插入、获取），没有迭代器</p>
+<ol>
+<li>创建</li>
+</ol>
+<pre><code class="language-c">#include &lt;queue&gt;
+queue&lt;T&gt; que;
+</code></pre>
+<ol start="2">
+<li>
+<p>基本操作</p>
+<pre><code class="language-c">que.front() 	//返回que的队头元素
+que.back() 		//返回que的队尾元素
+    
+que.push(a) 	//向que的尾部插入元素a
+que.pop() 		//删除que的队头元素
+    
+que.empty() 	//检查que是否为空
+que.size() 		//返回que容纳的元素数量
+</code></pre>
+</li>
+</ol>
+<h3 id="priority_queue优先队列堆">priority_queue优先队列（堆）</h3>
+<p>特点：最大元素查找时间复杂度O(1)，插入与释出O(log(n))</p>
+<ol>
+<li>
+<p>创建（默认会创建一个最大堆）</p>
+<pre><code class="language-c++">#include &lt;queue&gt;
+priority_queue&lt;int&gt; q;   // 创建最大堆
+priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt; &gt; q2;  //最小堆， vector为底层容器
+</code></pre>
+</li>
+<li>
+<p>基本操作</p>
+<pre><code class="language-c++">//元素访问
+top();     //栈顶元素
+
+//容量
+empty();
+size();
+
+//修改器
+push(a);  //插入元素，并对底层容器排序
+pop();	//删除队首元素
+swap();
+
+</code></pre>
+</li>
+</ol>
+<h2 id="set集合">set集合</h2>
+<h3 id="有序-不可重复集合set">有序、不可重复集合set</h3>
+<p>特点：查、插、删、改的时间复杂度均为O(logn)</p>
+<ol>
+<li>
+<p>创建：</p>
+<pre><code class="language-c">set&lt;T&gt; st;   			// 默认升序
+set&lt;T, greater&lt;T&gt;&gt; st; 	//降序
+</code></pre>
+</li>
+<li>
+<p>基本操作</p>
+<pre><code class="language-c++">st.begin() st.end() st.rbegin() st.rend(); //返回迭代器
+
+st.insert(a); //往st中插入元素a
+
+st.erase(iterator it); //删除st中it指向的元素
+st.erase(iterator itl, iterator itr); //删除st中[itl,itr)之间的元素
+st.erase(a); //删除st中值为a的元素
+
+st.clear(); //清除st中所有元素
+
+st.count(a); //返回st中值为a的元素数量（1或0）
+st.find(a); //返回st中指向值为a的元素的迭代器，若找不到返回st.end()
+
+st.lower_bound(a); //返回指向首个值不小于a的元素的迭代器
+st.upper_bound(a); //返回指向首个值大于a的元素的迭代器
+
+</code></pre>
+</li>
+</ol>
+<h3 id="有序-可重复集合multiset">有序、可重复集合multiset</h3>
+<p>特点：查、插、删、改的时间复杂度均为O(logn)</p>
+<ol>
+<li>
+<p>创建</p>
+<pre><code class="language-c">#include &lt;set&gt;
+multiset&lt;T&gt; st;
+multiset&lt;T, greater&lt;T&gt;&gt; st; //降序
+</code></pre>
+</li>
+<li>
+<p>常用操作与set相同，个别有微小区别</p>
+<pre><code class="language-c">find(a)   //返回指向“第一个”a的迭代器
+</code></pre>
+</li>
+</ol>
+<h3 id="无序集合unordered_set-unordered_multiset">无序集合unordered_set、unordered_multiset</h3>
+<p>特点：查、插、删的时间复杂度均为O(1)</p>
+<ol>
+<li>
+<p>创建</p>
+<pre><code class="language-c">#include &lt;unordered_set&gt;   //注意与上面2个不同
+unordered_set&lt;T&gt; st; 
+unordered_multiset&lt;T&gt; st;
+</code></pre>
+</li>
+<li>
+<p>基本操作与set/multiset基本相同，但不支持修改</p>
+</li>
+</ol>
+<h2 id="map">map</h2>
+<h3 id="map有序">map有序</h3>
+<p>特点：</p>
+<ul>
+<li>
+<p>按照键值队<strong>排序</strong>的集合，</p>
+</li>
+<li>
+<p>查、插、删、改的时间复杂度均为O(logn)</p>
+</li>
+</ul>
+<ol>
+<li>
+<p>创建与初始化(例如)</p>
+<pre><code class="language-c">#include &lt;map&gt;
+map&lt;string, int&gt; mp = {{&quot;A&quot;, 1}, {&quot;B&quot;, 2}};
+mp[&quot;C&quot;] = 3;
+</code></pre>
+<p>![image-20210704222939548](https://gitee.com/ajream/images/raw/master/img/2021-07-04 22-29-43_image-20210704222939548.png)</p>
+</li>
+<li>
+<p>基本操作</p>
+<pre><code class="language-c">mp.begin();   mp.end();   mp.rbegin();   mp.rend();
+
+mp[a];  // 读写键为a的元素
+
+mp.empty();  // 检查mp是否为空
+mp.size();  // 返回mp容纳的元素数
+mp.clear();  // 清除mp的所有元素
+
+mp.erase(iterator it);  // 移除mp中it指向的元素
+mp.erase(a);  // 移除mp中键为a的元素
+</code></pre>
+</li>
+</ol>
+<h3 id="unordered_map-无序">unordered_map 无序</h3>
+<p>特点：使用哈希算法，时间复杂度O(1)</p>
+<ol>
+<li>
+<p>创建（与map相同）</p>
+</li>
+<li>
+<p>基本操作</p>
+<pre><code class="language-c">//迭代器
+begin() end()  
+
+//容量
+empty();
+size();       //返回容纳的元素数
+max_size();		//返回可容纳的最大元素数c
+    
+//查找
+at()   //访问指定的元素，同时进行越界检查
+operator[]  //访问或插入指定的元素
+count()			//返回匹配特定键的元素数量
+find()		//寻找带有特定键的元素
+contains()   //检查容器是否含有带特定键的元素
+equal_range()   //返回匹配特定键的元素范围
+
+//修改器
+clear()
+insert()   //插入元素或结点 (C++17 起)
+insert_or_assign()  //插入元素，或若键已存在则赋值给当前元素
+erase();
+swap();   //交换内容
+extract();	//从另一容器释出结点
+merge();		//从另一容器接合结点
+</code></pre>
+<p>insert()</p>
+<pre><code class="language-c++">unordered_map&lt;int, string&gt; dict = {{1, &quot;one&quot;}, {2, &quot;two&quot;}};
+dict.insert({3, &quot;three&quot;});
+dict.insert(std::make_pair(4, &quot;four&quot;));
+dict.insert({{4, &quot;another four&quot;}, {5, &quot;five&quot;}});
+</code></pre>
+<p>![image-20210704223730638](https://gitee.com/ajream/images/raw/master/img/2021-07-04 22-37-35_image-20210704223730638.png)</p>
+</li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#stl">STL</a>
+<ul>
+<li><a href="#vector%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84">vector动态数组</a></li>
+<li><a href="#stack%E6%A0%88">stack栈</a></li>
+<li><a href="#queue%E9%98%9F%E5%88%97">queue队列</a>
+<ul>
+<li><a href="#priority_queue%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%A0%86">priority_queue优先队列（堆）</a></li>
+</ul>
+</li>
+<li><a href="#set%E9%9B%86%E5%90%88">set集合</a>
+<ul>
+<li><a href="#%E6%9C%89%E5%BA%8F-%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E9%9B%86%E5%90%88set">有序、不可重复集合set</a></li>
+<li><a href="#%E6%9C%89%E5%BA%8F-%E5%8F%AF%E9%87%8D%E5%A4%8D%E9%9B%86%E5%90%88multiset">有序、可重复集合multiset</a></li>
+<li><a href="#%E6%97%A0%E5%BA%8F%E9%9B%86%E5%90%88unordered_set-unordered_multiset">无序集合unordered_set、unordered_multiset</a></li>
+</ul>
+</li>
+<li><a href="#map">map</a>
+<ul>
+<li><a href="#map%E6%9C%89%E5%BA%8F">map有序</a></li>
+<li><a href="#unordered_map-%E6%97%A0%E5%BA%8F">unordered_map 无序</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://ajream.github.io/post/hello-gridea/">
+              <h3 class="post-title">
+                Hello Gridea
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://ajream.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -974,3 +974,37 @@ td {
 .hljs-strong {
   font-weight: bold;
 }
+
+      .post-container .post .post-title {
+        text-align: center;
+      }
+      .post-container .post .post-info {
+        text-align: center;
+      }
+      .post-detail .post .post-title {
+        text-align: center;
+      }
+      .post-detail .post .post-info {
+        text-align: center;
+      }
+    
+      body {
+        font-family: -apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif;
+      }
+    
+      .main {
+        background: #343a40;
+      }
+    
+      body {
+        background: #343a40;
+      }
+    
+      body {
+        color: #e9ecef;
+      }
+    
+      a {
+        color: #5c7cfa;
+      }
+    
